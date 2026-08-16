@@ -1,395 +1,367 @@
 'use client'
 
-import { useState, CSSProperties } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
+
+interface ArtDetailClientProps {
+  art: any
+  relatedArts?: any[]
+  whatsappUrl: string
+  shareWhatsapp: string
+  pageUrl: string
+  imageUrl: string
+  relatedImageUrls?: string[]
+}
 
 export default function ArtDetailClient({
   art,
+  relatedArts = [],
   whatsappUrl,
   shareWhatsapp,
-  pageUrl,
   imageUrl,
-}: any) {
+  relatedImageUrls = [],
+}: ArtDetailClientProps) {
   const [zoomOpen, setZoomOpen] = useState(false)
   const [copied, setCopied] = useState(false)
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(pageUrl)
+    navigator.clipboard.writeText(window.location.href)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
 
+  // Close zoom on Escape
+  useEffect(() => {
+    if (!zoomOpen) return
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setZoomOpen(false)
+      }
+    }
+
+    window.addEventListener('keydown', onKey)
+
+    return () => window.removeEventListener('keydown', onKey)
+  }, [zoomOpen])
+
+  const sold = art.availableForSale === false
+
+  // Material display value
+  const material =
+    art.material === 'Other'
+      ? art.otherMaterial
+      : art.material
+
+  // Icon mapping for pigment/colour types
+  const colourIcons: Record<string, string> = {
+    'Natural Pigments': '🎨',
+    'Plant-based Colours': '🌿',
+    'Mineral Pigments': '⛰️',
+    'Shell-derived White': '🐚',
+    'Lamp Black': '🕯️',
+  }
+
   return (
     <>
-      <main style={page}>
+      <main className="art-page">
         {/* Breadcrumb */}
-        <nav style={breadcrumb}>
-          <Link href="/" style={link}>Home</Link>
-          <span>›</span>
-          <Link href="/gallery" style={link}>Gallery</Link>
-          <span>›</span>
-          <span style={{ color: '#111' }}>{art.title}</span>
+        <nav className="crumb">
+          <Link href="/">Home</Link>
+          <span className="crumb-sep">/</span>
+          <Link href="/gallery">Gallery</Link>
+          <span className="crumb-sep">/</span>
+          <span className="crumb-current">{art.title}</span>
         </nav>
 
-        {/* GRID */}
-        <div style={grid}>
-          
-          {/* LEFT */}
-          <section style={left}>
-            
+        <div className="art-grid">
+          {/* INFO */}
+          <section className="info-col">
             {art.category?.title && (
-            <div style={badgeWrap}>
-          <span style={badge}>{art.category.title}</span>
-          </div>
-      )}
+              <span className="badge">{art.category.title}</span>
+            )}
 
-            <h1 style={title}>{art.title}</h1>
+            <h1 className="title">{art.title}</h1>
 
-            <div style={divider} />
 
-            <div style={priceBox}>
-              <div style={priceLabel}>Price</div>
-              <div style={price}>₹ {art.price?.toLocaleString('en-IN')}</div>
+            {/* Price */}
+            <div className="price-box">
+              <span className="price-label">Price</span>
+
+              <span className="price-value">
+                ₹{art.price?.toLocaleString('en-IN') ?? '—'}
+              </span>
             </div>
 
-            <div style={card}>
-              <Row label="Artwork ID" value={art.artworkId || '-'} />
-              <Row label="Size" value={art.size || '-'} />
-              <Row label="Category" value={art.category?.title || '-'} />
-              <Row label="Availability" value={
-                    art.availableForSale === false
-                    ? 'Sold'
-                    : 'Available'
-                    }
-                  highlight={art.availableForSale !== false}/>
+            {/* Artwork Details */}
+            <div className="detail-card">
+              <Row
+                label="Artwork ID"
+                value={art.artworkId || '—'}
+              />
+
+              <Row
+                label="Size"
+                value={art.size || '—'}
+              />
+
+              <Row
+                label="Category"
+                value={art.category?.title || '—'}
+              />
+
+              {/* Colours / Pigments */}
+              {art.colours?.length > 0 && (
+                <div className="row row-chips">
+                  <span className="row-label">Colours</span>
+
+                  <div className="chip-group">
+                    {art.colours.map((c: string) => (
+                      <span className="colour-chip" key={c}>
+                        <span className="colour-chip-icon" aria-hidden="true">
+                          {colourIcons[c] || '●'}
+                        </span>
+                        {c}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Material */}
+              {material && (
+                <Row
+                  label="Material"
+                  value={material}
+                />
+              )}
+
+              {/* Time Taken */}
+              {art.timeTaken && (
+                <Row
+                  label="Time Taken"
+                  value={art.timeTaken}
+                />
+              )}
             </div>
 
+            {/* Description */}
             {art.description && (
-              <div style={descCard}>
-                <div style={descTitle}>ABOUT THIS PIECE</div>
-                <div style={desc}>{art.description}</div>
+              <div className="desc-card">
+                <span className="desc-title">
+                  About this piece
+                </span>
+
+                <p className="desc-text">
+                  {art.description}
+                </p>
               </div>
             )}
 
-            {art.availableForSale !== false ? (
-              <a href={whatsappUrl} target="_blank">
-                <button style={cta}>💬 Enquire on WhatsApp</button>
+            {/* Enquiry */}
+            {!sold ? (
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cta"
+              >
+                <span
+                  className="cta-icon"
+                  aria-hidden="true"
+                >
+                  ✆
+                </span>
+
+                Enquire on WhatsApp
               </a>
             ) : (
-              <div style={sold}>SOLD OUT</div>
+              <div className="sold-banner">
+                This piece has found its home
+              </div>
             )}
 
-         <div style={shareRow}>
-  <button onClick={handleCopy} style={copyBtn}>
-    {copied ? '✓ Copied' : 'Copy Link'}
-  </button>
+            {/* Share */}
+            <div className="share-row">
+              <button
+                onClick={handleCopy}
+                className="share-btn"
+              >
+                {copied
+                  ? '✓ Link copied'
+                  : 'Copy link'}
+              </button>
 
-  <a href={shareWhatsapp} target="_blank" style={waBtn as any}>
-    Share on WhatsApp
-  </a>
-</div>
-          </section>
-
-          {/* RIGHT */}
-                {/* RIGHT */}
-<section>
-
-  {/* TOP RIGHT BUTTON */}
-  <div style={backWrap}>
-    <Link href="/gallery" style={backBtn}>
-      ← Back to Gallery
-    </Link>
-  </div>
-
-            <div style={imageWrap} onClick={() => setZoomOpen(true)}>
-              <img src={imageUrl} style={img} />
-              <div style={hint}>Click to enlarge</div>
+              <a
+                href={shareWhatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="share-btn share-btn-alt"
+              >
+                Share
+              </a>
             </div>
           </section>
+
+          {/* MEDIA */}
+          <section className="media-col">
+            <div className="media-top">
+              <Link
+                href="/gallery"
+                className="back-btn"
+              >
+                ← Back to Gallery
+              </Link>
+            </div>
+
+            <div
+              className="mount"
+              onClick={() => setZoomOpen(true)}
+              role="button"
+              tabIndex={0}
+              aria-label="Enlarge artwork"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  setZoomOpen(true)
+                }
+              }}
+            >
+              <span className="corner corner-tl" />
+              <span className="corner corner-tr" />
+              <span className="corner corner-bl" />
+              <span className="corner corner-br" />
+
+              <div className="mount-inner">
+                {imageUrl && (
+                  <img
+                    src={imageUrl}
+                    alt={art.title}
+                    className="art-img"
+                  />
+                )}
+              </div>
+
+              <span className="zoom-hint">
+                🔍 Tap to enlarge
+              </span>
+            </div>
+
+            <p className="plaque">
+              Hand-painted Pattachitra scroll art · Odisha, India
+            </p>
+          </section>
         </div>
+
+        {/* RELATED */}
+        {relatedArts.length > 0 && (
+          <section className="related">
+            <div className="related-head">
+              <span className="related-eyebrow">
+                You may also like
+              </span>
+
+              <h2 className="related-title">
+                More from{' '}
+                {art.category?.title ||
+                  'this collection'}
+              </h2>
+            </div>
+
+            <div className="related-grid">
+              {relatedArts.map(
+                (r: any, i: number) => (
+                  <Link
+                    key={r._id}
+                    href={`/art/${r.slug?.current}`}
+                    className="related-card"
+                  >
+                    <div className="related-img-wrap">
+                      {relatedImageUrls[i] && (
+                        <img
+                          src={relatedImageUrls[i]}
+                          alt={r.title}
+                          className="related-img"
+                        />
+                      )}
+                    </div>
+
+                    <div className="related-info">
+                      <span className="related-name">
+                        {r.title}
+                      </span>
+
+                      {r.price != null && (
+                        <span className="related-price">
+                          ₹
+                          {r.price.toLocaleString(
+                            'en-IN'
+                          )}
+                        </span>
+                      )}
+                    </div>
+                  </Link>
+                )
+              )}
+            </div>
+          </section>
+        )}
       </main>
 
       {/* ZOOM */}
       {zoomOpen && (
-        <div style={zoom} onClick={() => setZoomOpen(false)}>
-          <img src={imageUrl} style={zoomImg} />
+        <div
+          className="zoom-overlay"
+          onClick={() => setZoomOpen(false)}
+        >
+          <button
+            className="zoom-close"
+            onClick={() =>
+              setZoomOpen(false)
+            }
+            aria-label="Close"
+          >
+            ✕
+          </button>
+
+          {imageUrl && (
+            <img
+              src={imageUrl}
+              alt={art.title}
+              className="zoom-img"
+              onClick={(e) =>
+                e.stopPropagation()
+              }
+            />
+          )}
         </div>
       )}
     </>
   )
 }
 
-/* ---------------- PREMIUM DESIGN SYSTEM ---------------- */
+/* ---------------- ROW ---------------- */
 
-const colors = {
-  primary: '#b5451b',
-  text: '#1a1a1a',
-  muted: '#6b6b6b',
-  soft: '#f5efe7',
-  border: '#e8e2da',
-}
-
-/* PAGE */
-const page: CSSProperties = {
-  maxWidth: 1200,
-  margin: '0 auto',
-  padding: '3.5rem 1.5rem',
-  fontFamily: "'Inter', 'Georgia', serif",
-  color: colors.text,
-  background: '#fcfbf9',
-}
-
-/* BREADCRUMB */
-const breadcrumb: CSSProperties = {
-  display: 'flex',
-  gap: 10,
-  fontSize: 12,
-  letterSpacing: 2,
-  textTransform: 'uppercase',
-  color: '#999',
-  marginBottom: 30,
-}
-
-const link: CSSProperties = {
-  textDecoration: 'none',
-  color: '#999',
-}
-
-/* GRID */
-const grid: CSSProperties = {
-  display: 'grid',
-  gridTemplateColumns: '1fr 1fr',
-  gap: 70,
-  alignItems: 'start',
-}
-
-const left: CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 18,
-}
-
-/* BADGE */
-const badgeWrap: CSSProperties = {
-  display: 'inline-block',
-}
-
-const badge: CSSProperties = {
-  fontSize: 12,
-  letterSpacing: 2,
-  textTransform: 'uppercase',
-  background: colors.soft,
-  color: colors.primary,
-  padding: '6px 14px',
-  borderRadius: 30,
-  fontWeight: 500,
-}
-
-/* TITLE */
-const title: CSSProperties = {
-  fontSize: 44,
-  letterSpacing: 2,
-  textTransform: 'uppercase',
-  color: 'black',
-  padding: '6px 14px',
-  borderRadius: 30,
-  fontWeight: 500,
-}
-const backWrap: CSSProperties = {
-  display: 'flex',
-  justifyContent: 'flex-end',
-  marginBottom: 14,
-}
-
-const backBtn: CSSProperties = {
-  padding: '10px 16px',
-  background: '#9c1313',
-  color: '#fff',
-  textDecoration: 'none',
-  borderRadius: 10,
-  fontSize: 14,
-  fontWeight: 500,
-}
-
-/* DIVIDER */
-const divider: CSSProperties = {
-  height: 1,
-  background: 'linear-gradient(to right, #ddd, transparent)',
-}
-
-/* PRICE */
-const priceBox: CSSProperties = {
-  padding: 20,
-  background: 'linear-gradient(135deg, #fff7f0, #fff)',
-  borderLeft: `4px solid ${colors.primary}`,
-  borderRadius: 8,
-}
-
-const priceLabel: CSSProperties = {
-  fontSize: 12,
-  letterSpacing: 2,
-  textTransform: 'uppercase',
-  color: '#777',
-}
-
-const price: CSSProperties = {
-  fontSize: 34,
-  fontWeight: 700,
-  color: colors.primary,
-  letterSpacing: '-0.5px',
-}
-
-/* CARD */
-const card: CSSProperties = {
-  border: `1px solid ${colors.border}`,
-  borderRadius: 12,
-  overflow: 'hidden',
-  background: '#fff',
-  boxShadow: '0 10px 30px rgba(0,0,0,0.04)',
-}
-
-/* DESCRIPTION */
-const descCard: CSSProperties = {
-  padding: 16,
-  background: '#fbfbfa',
-  borderLeft: `3px solid ${colors.primary}`,
-}
-
-const descTitle: CSSProperties = {
-  fontSize: 12,
-  letterSpacing: 2.5,
-  color: colors.primary,
-  marginBottom: 10,
-  fontWeight: 600,
-}
-
-const desc: CSSProperties = {
-  fontSize: 15,
-  lineHeight: 1.9,
-  color: colors.muted,
-}
-
-/* CTA */
-const cta: CSSProperties = {
-  width: '100%',
-  padding: 15,
-  background: 'linear-gradient(135deg, #dd5b51, #c0341c)',
-  color: '#fff',
-  border: 'none',
-  fontSize: 15,
-  fontWeight: 600,
-  cursor: 'pointer',
-  borderRadius: 12,
-  boxShadow: '0 10px 20px rgba(37, 211, 102, 0.25)',
-}
-
-/* SOLD */
-const sold: CSSProperties = {
-  textAlign: 'center',
-  padding: 14,
-  background: '#eee',
-  color: '#888',
-  borderRadius: 10,
-}
-
-/* SHARE */
-const shareRow: CSSProperties = {
-  display: 'flex',
-  gap: 12,
-  width: '100%',
-}
-
-const copyBtn: CSSProperties = {
-  flex: 1,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  padding: 12,
-  border: '1px solid #2678e4',
-  background: '#8b8ae0',
-  color: '#000',
-  cursor: 'pointer',
-  textDecoration: 'none',
-  fontSize: 16,
-  borderRadius: 12,
-  boxShadow: '0 10px 20px rgba(37, 211, 102, 0.25)',
-}
-
-const waBtn: CSSProperties = {
-  flex: 1,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  padding: 12,
-  border: '1px solid #25D366',
-  background: '#49d17b',
-  color: '#000',
-  cursor: 'pointer',
-  textDecoration: 'none',
-  borderRadius: 12,
-  boxShadow: '0 10px 20px rgba(37, 211, 102, 0.25)',
-}
-
-/* IMAGE */
-const imageWrap: CSSProperties = {
-  position: 'relative',
-  borderRadius: 10,
-  overflow: 'hidden',
-  boxShadow: '0 40px 90px rgba(0,0,0,0.18)',
-  cursor: 'zoom-in',
-  border: '8px solid #fff',
-}
-
-const img: CSSProperties = {
-  width: '100%',
-  display: 'block',
-}
-
-const hint: CSSProperties = {
-  position: 'absolute',
-  bottom: 12,
-  left: 12,
-  fontSize: 12,
-  background: 'rgba(0,0,0,0.5)',
-  color: '#fff',
-  padding: '4px 10px',
-  borderRadius: 20,
-}
-
-/* ZOOM */
-const zoom: CSSProperties = {
-  position: 'fixed',
-  inset: 0,
-  background: 'rgba(0,0,0,0.95)',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  zIndex: 9999,
-}
-
-const zoomImg: CSSProperties = {
-  maxWidth: '90%',
-  maxHeight: '90vh',
-}
-
-/* ROW COMPONENT */
-function Row({ label, value, highlight }: any) {
+function Row({
+  label,
+  value,
+  state,
+}: {
+  label: string
+  value: string
+  state?: 'available' | 'sold'
+}) {
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        padding: '14px 18px',
-        borderBottom: '1px solid #f0f0f0',
-        fontSize: 14,
-      }}
-    >
-      <span style={{ color: '#888' }}>{label}</span>
+    <div className="row">
+      <span className="row-label">
+        {label}
+      </span>
+
       <span
-        style={{
-          color: highlight ? '#22c55e' : '#111',
-          fontWeight: highlight ? 600 : 400,
-        }}
+        className={`row-value${
+          state
+            ? ` row-${state}`
+            : ''
+        }`}
       >
         {value}
       </span>
