@@ -1,33 +1,42 @@
+import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 import './globals.css'
-import Link from 'next/link'
 
 export const metadata = {
-  title: 'Pattachitra',
-  description: 'Ancient art of Odisha',
+  title: {
+    default: 'Pattachitra | Traditional Art of Odisha',
+    template: '%s | Pattachitra',
+  },
+
+  description:
+    'Explore the traditional Pattachitra art of Odisha, its history, paintings, artists, culture, and heritage.',
+
+  keywords: [
+    'Pattachitra',
+    'Pattachitra art',
+    'Odisha art',
+    'traditional art of Odisha',
+    'Pattachitra paintings',
+    'Indian traditional art',
+  ],
+
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
       <body>
-        <nav className="navbar">
-          <Link href="/" className="logo">PATTACHITRA</Link>
-          <ul className="nav-links">
-            <li><Link href="/">Home</Link></li>
-            <li><Link href="/about">About</Link></li>
-            <li><Link href="/gallery">Gallery</Link></li>
-          
-            <li><Link href="/contact">Contact</Link></li>
-          </ul>
-        </nav>
-
+        <Navbar />
         {children}
-
-        <footer className="footer">
-          <h2>PATTACHITRA ART • ODISHA</h2>
-          <p>Preserving the ancient art of storytelling through colours and brushstrokes.</p>
-          <p className="copy">© 2026 All rights reserved</p>
-        </footer>
+        <Footer />
       </body>
     </html>
   )
