@@ -1,0 +1,437 @@
+[
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "Category Name"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 2
+              },
+              {
+                "flag": "max",
+                "constraint": 3
+              }
+            ],
+            "message": "Prefix must be 2–3 letters"
+          }
+        ],
+        "description": "Auto generated from category name — change only if there is a conflict",
+        "name": "prefix",
+        "type": "string",
+        "title": "Prefix Code"
+      },
+      {
+        "initialValue": true,
+        "description": "Turn OFF to hide this category from the website",
+        "name": "isActive",
+        "type": "boolean"
+      }
+    ],
+    "name": "category",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "options": {
+          "disableNew": false,
+          "filter": "isActive == true"
+        },
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "description": "Select category first — Artwork ID will be auto generated",
+        "to": [
+          {
+            "type": "category"
+          }
+        ],
+        "name": "category",
+        "type": "reference"
+      },
+      {
+        "description": "Auto generated after category is selected (e.g. JP001, KL002)",
+        "readOnly": true,
+        "name": "artworkId",
+        "type": "string",
+        "title": "Artwork ID"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "Artwork Name"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "description": "Auto generated from artwork name",
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 0
+              }
+            ]
+          }
+        ],
+        "name": "price",
+        "type": "number",
+        "title": "Price (₹)"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "description": "Example: 24 × 36 inches",
+        "name": "size",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Natural Pigments",
+              "value": "Natural Pigments"
+            },
+            {
+              "title": "Plant-based Colours",
+              "value": "Plant-based Colours"
+            },
+            {
+              "title": "Mineral Pigments",
+              "value": "Mineral Pigments"
+            },
+            {
+              "title": "Shell-derived White",
+              "value": "Shell-derived White"
+            },
+            {
+              "title": "Lamp Black",
+              "value": "Lamp Black"
+            }
+          ]
+        },
+        "description": "Select the colours used in this artwork.",
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "colours",
+        "type": "array",
+        "title": "Colours Used"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Traditional Cotton Patta",
+              "value": "Traditional Cotton Patta"
+            },
+            {
+              "title": "Tussar Silk",
+              "value": "Tussar Silk"
+            },
+            {
+              "title": "Palm Leaf",
+              "value": "Palm Leaf"
+            },
+            {
+              "title": "Other",
+              "value": "Other"
+            }
+          ],
+          "layout": "dropdown"
+        },
+        "name": "material",
+        "type": "string"
+      },
+      {
+        "description": "Fill this only when Material is set to Other",
+        "hidden": "conditional",
+        "name": "otherMaterial",
+        "type": "string"
+      },
+      {
+        "description": "Example: 15 Days, 3 Weeks, 1 Month, 2 Months",
+        "name": "timeTaken",
+        "type": "string"
+      },
+      {
+        "rows": 5,
+        "description": "Describe the artwork, story, inspiration, or cultural significance",
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "fields": [
+          {
+            "description": "Describe the artwork for accessibility & SEO",
+            "name": "alt",
+            "type": "string",
+            "title": "Alt Text"
+          }
+        ],
+        "name": "image",
+        "type": "image",
+        "title": "Artwork Image"
+      },
+      {
+        "initialValue": true,
+        "name": "availableForSale",
+        "type": "boolean",
+        "title": "Available for Sale"
+      }
+    ],
+    "name": "artwork",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "email",
+        "type": "string"
+      },
+      {
+        "name": "phone",
+        "type": "string"
+      },
+      {
+        "name": "subject",
+        "type": "string"
+      },
+      {
+        "name": "message",
+        "type": "text"
+      },
+      {
+        "name": "createdAt",
+        "type": "datetime"
+      }
+    ],
+    "name": "contact",
+    "type": "document",
+    "title": "Contact Enquiries"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "customerName",
+        "type": "string"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "customerPhoto",
+        "type": "image"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "location",
+        "type": "string",
+        "title": "Location (City, State)"
+      },
+      {
+        "options": {
+          "list": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 1
+              },
+              {
+                "flag": "max",
+                "constraint": 5
+              }
+            ]
+          }
+        ],
+        "name": "rating",
+        "type": "number",
+        "title": "Rating (1–5 stars)"
+      },
+      {
+        "rows": 4,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "reviewMessage",
+        "type": "text"
+      },
+      {
+        "to": [
+          {
+            "type": "artwork"
+          }
+        ],
+        "name": "artworkPurchased",
+        "type": "reference"
+      },
+      {
+        "options": {
+          "dateFormat": "MMMM YYYY"
+        },
+        "name": "purchaseDate",
+        "type": "date",
+        "title": "Purchase Month & Year"
+      },
+      {
+        "initialValue": false,
+        "description": "Turn ON to show this testimonial on the live website",
+        "name": "displayOnWebsite",
+        "type": "boolean",
+        "title": "Display on Website"
+      }
+    ],
+    "name": "testimonial",
+    "type": "document"
+  }
+]
