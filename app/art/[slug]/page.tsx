@@ -2,6 +2,7 @@ import { client } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
 import { groq } from 'next-sanity'
 import ArtDetailClient from '@/components/ArtDetailClient'
+import { headers } from 'next/headers'
 
 export const revalidate = 60
 
@@ -15,6 +16,10 @@ const ART_BY_SLUG_QUERY = groq`
     size,
     description,
     availableForSale,
+    colours,
+    material,
+    otherMaterial,
+    timeTaken,
 
     image{
       asset,
@@ -87,13 +92,16 @@ export default async function ArtDetailPage({
     }
   )
 
+const headersList = await headers()
+const host = headersList.get('host')
+
+const pageUrl = `https://${host}/art/${slug}`
+
   const phone = '916374781871'
 
   const imageUrl = art.image
     ? urlFor(art.image).width(800).url()
     : ''
-
-  const pageUrl = `https://pattachitra.vercel.app/art/${slug}`
 
   const whatsappMessage = `Hi! 👋
 
