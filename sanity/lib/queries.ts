@@ -54,6 +54,10 @@ export const ARTWORK_QUERY = groq`
     size,
     description,
     availableForSale,
+    colours,
+    material,
+    otherMaterial,
+    timeTaken,
 
     image{
       asset,
