@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
 
-const HERO_IMAGES = ['/images/hero4.jpg', '/images/hero1.jpg','/images/hero3.jpg', '/images/categories/jagannath.jpg']
+const HERO_IMAGES = ['/images/hero4.jpg','/images/categories/jagannath.jpg','/images/hero3.jpg', , '/images/hero1.jpg']
 
 export type Testimonial = {
   _id: string
