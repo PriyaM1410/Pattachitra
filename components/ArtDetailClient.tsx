@@ -186,7 +186,7 @@ export default function ArtDetailClient({
               </a>
             ) : (
               <div className="sold-banner">
-                This piece has found its home
+                This piece is currently unavailable — please check back within a week.
               </div>
             )}
 
