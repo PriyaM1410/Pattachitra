@@ -188,12 +188,34 @@ export default defineType({
       ],
     }),
 
-    // ── 13. Available for Sale ──
+    // ── 13. Artwork Status (Dropdown) ──
     defineField({
       name: 'availableForSale',
-      title: 'Available for Sale',
+      title: 'Status',
+      type: 'string',
+      description: 'Set the artwork as Available or Sold',
+      options: {
+        list: [
+          { title: 'Available', value: 'Available' },
+          { title: 'Sold', value: 'Sold' },
+        ],
+        layout: 'dropdown',
+      },
+      initialValue: 'Available',
+      validation: (Rule) => Rule.required(),
+    }),
+
+    // ── 14. Show on Website (Toggle) ──
+    defineField({
+      name: 'showStatus',
+      title: 'Show on Website',
       type: 'boolean',
+      description:
+        'ON = Artwork card appears in the Gallery · OFF = Artwork is hidden from the website',
       initialValue: true,
+      options: {
+        layout: 'switch',
+      },
     }),
   ],
 
@@ -210,7 +232,7 @@ export default defineType({
       return {
         title: title ?? 'Untitled Artwork',
         subtitle: `${artworkId ?? '—'} · ${
-          available ? '🟢 For Sale' : '🔴 Not for Sale'
+          available === 'Sold' ? '🔴 Sold' : '🟢 Available'
         }`,
         media,
       }
