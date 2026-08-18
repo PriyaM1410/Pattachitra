@@ -104,15 +104,11 @@ const pageUrl = `https://${host}/art/${slug}`
     : ''
 
   const whatsappMessage = `Hi! 👋
-
 I'm interested in purchasing this beautiful *${art.title}* painting.
-
 🆔 Artwork ID: ${art.artworkId || 'N/A'}
 📐 Size: ${art.size || 'N/A'}
 💰 Price: ₹${art.price?.toLocaleString('en-IN')}
-🖼️ ${imageUrl}
-
-I really loved this artwork and would like to know if it is available for purchase. Please share the details regarding delivery and payment.`
+🖼️ ${pageUrl}`
 
   const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(
     whatsappMessage
