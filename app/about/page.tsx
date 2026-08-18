@@ -2,38 +2,21 @@
 
 export default function AboutPage() {
   const timeline = [
-    { year: '2002', event: 'Began formal training under master artisan Guru Ananta Maharana' },
-    { year: '2012', event: 'First solo exhibition at the National Gallery of Modern Art, New Delhi' },
-    { year: '2016', event: 'Awarded the State Handicrafts Award for excellence in Pattachitra' },
-    { year: '2020', event: 'Featured in international exhibitions across London, Tokyo, and New York' },
-    { year: '2024', event: 'Launched online platform to bring Pattachitra art to global collectors' },
+    { year: '1990', event: 'Began formal training under My father.(This skills inherited from ancestries).' },
+    { year: '2010', event: 'Exhibition at karunamayi at Kolkata' },
+    { year: '2014', event: 'Exhibition at Assam (Gauhati)' },
+    { year: '2017', event: 'Exhibition at Delhi Haat at New Delhi' },
+    { year: '2018', event: 'Exhibition at Kalaghoda at Mumbai' },
+    { year: '2022', event: 'Exhibition at Goa Saras' },
+    { year: '2024', event: 'Exhibition at Bhubaneswar (Odisha) recipient Pattachitra traditional best artist award' }
   ]
-
   const awards = [
     {
 
       title: 'Odisha State Award for Folk Art Painting',
       year: '2016',
       desc: "Recognized by the Government of Odisha for excellence in traditional Pattachitra painting.",
-    },
-    {
-   
-      title: 'Basant Utsav Award',
-      year: '2017',
-      desc: "Honored for outstanding contributions to Odisha's folk art heritage.",
-    },
-    {
-
-      title: 'Pattachitra HastaShilpi Award',
-      year: '2022',
-      desc: 'Awarded for exceptional craftsmanship in traditional Pattachitra art.',
-    },
-    {
-
-      title: 'Odisha Folk Artist Award',
-      year: '2024',
-      desc: "Recognized for preserving and promoting Odisha's traditional folk art.",
-    },
+    }
   ]
 
   return (
@@ -97,7 +80,7 @@ export default function AboutPage() {
       {/* AWARDS */}
       <section className="awards">
         <span className="eyebrow center">Recognition</span>
-        <h2>Honoured Moments</h2>
+        <h2>Honoured Moment</h2>
 
         <div className="award-grid">
           {awards.map((a) => (
