@@ -45,7 +45,7 @@ export default function ArtDetailClient({
     return () => window.removeEventListener('keydown', onKey)
   }, [zoomOpen])
 
-  const sold = art.availableForSale === false
+  const sold = art.availableForSale === 'Sold'
 
   // Material display value
   const material =
@@ -77,9 +77,11 @@ export default function ArtDetailClient({
         <div className="art-grid">
           {/* INFO */}
           <section className="info-col">
-            {art.category?.title && (
-              <span className="badge">{art.category.title}</span>
-            )}
+            <div className="badge-row">
+              {art.category?.title && (
+                <span className="badge">{art.category.title}</span>
+              )}
+            </div>
 
             <h1 className="title">{art.title}</h1>
 
@@ -143,6 +145,13 @@ export default function ArtDetailClient({
                   value={art.timeTaken}
                 />
               )}
+
+              {/* Status */}
+              <Row
+                label="Status"
+                value={sold ? 'Sold' : 'Available'}
+                state={sold ? 'sold' : 'available'}
+              />
             </div>
 
             {/* Description */}
@@ -335,6 +344,25 @@ export default function ArtDetailClient({
           )}
         </div>
       )}
+
+      <style jsx>{`
+        .badge-row {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
+        .row-available {
+          color: #1e7a1e;
+          font-weight: 600;
+        }
+
+        .row-sold {
+          color: #8b1c1c;
+          font-weight: 600;
+        }
+      `}</style>
     </>
   )
 }
