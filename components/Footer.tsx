@@ -16,7 +16,15 @@ export default function Footer() {
         </p>
 
         <p className="copy">
-          © 2026 All rights reserved
+          © 2026 All rights reserved.  Pattachitra Art • Odisha.  Designed and developed by 
+    <a      
+  href="https://jsdc.academy/"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="credit-link"
+>
+   TARA IT
+</a>
         </p>
       </div>
     </footer>
