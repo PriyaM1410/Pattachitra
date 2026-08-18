@@ -17,7 +17,7 @@ export const HERO_QUERY = groq`
 // All Artworks
 // ─────────────────────────────────────────────
 export const ARTWORKS_QUERY = groq`
-  *[_type == "artwork" && availableForSale == true]
+  *[_type == "artwork" && showStatus == true]
   | order(_createdAt desc) {
     _id,
     title,
@@ -27,6 +27,7 @@ export const ARTWORKS_QUERY = groq`
     size,
     description,
     availableForSale,
+    showStatus,
 
     image{
       asset,
@@ -54,6 +55,7 @@ export const ARTWORK_QUERY = groq`
     size,
     description,
     availableForSale,
+    showStatus,
     colours,
     material,
     otherMaterial,
