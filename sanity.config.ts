@@ -37,6 +37,8 @@ const pattachitraTheme = buildLegacyTheme({
 })
 
 export default defineConfig({
+  name: 'pattachitra',           // internal id
+  title: 'Pattachitra Studio',   // this shows in the workspace switcher & browser tab
   basePath: '/studio',
   projectId,
   dataset,
