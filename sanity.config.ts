@@ -1,28 +1,170 @@
-'use client'
-
-/**
- * This configuration is used to for the Sanity Studio that’s mounted on the `\app\studio\[[...tool]]\page.tsx` route
- */
-
-import {visionTool} from '@sanity/vision'
-import {defineConfig} from 'sanity'
-import {structureTool} from 'sanity/structure'
-
-// Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
-import {apiVersion, dataset, projectId} from './sanity/env'
-import {schema} from './sanity/schemaTypes'
-import {structure} from './sanity/structure'
-
-export default defineConfig({
-  basePath: '/studio',
-  projectId,
-  dataset,
-  // Add and edit the content schema in the './sanity/schemaTypes' folder
-  schema,
-  plugins: [
-    structureTool({structure}),
-    // Vision is for querying with GROQ from inside the Studio
-    // https://www.sanity.io/docs/the-vision-plugin
-    visionTool({defaultApiVersion: apiVersion}),
-  ],
-})
+[{
+	"resource": "/D:/Projects/pattachitra/app/globals.css",
+	"owner": "_generated_diagnostic_collection_name_#3",
+	"code": "css-ruleorselectorexpected",
+	"severity": 8,
+	"message": "at-rule or selector expected",
+	"source": "css",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 13,
+	"modelVersionId": 3,
+	"origin": "extHost1"
+},{
+	"resource": "/D:/Projects/pattachitra/app/globals.css",
+	"owner": "_generated_diagnostic_collection_name_#3",
+	"code": "css-colonexpected",
+	"severity": 8,
+	"message": "colon expected",
+	"source": "css",
+	"startLineNumber": 7,
+	"startColumn": 19,
+	"endLineNumber": 7,
+	"endColumn": 20,
+	"modelVersionId": 3,
+	"origin": "extHost1"
+},{
+	"resource": "/D:/Projects/pattachitra/app/globals.css",
+	"owner": "_generated_diagnostic_collection_name_#3",
+	"code": "css-semicolonexpected",
+	"severity": 8,
+	"message": "semi-colon expected",
+	"source": "css",
+	"startLineNumber": 12,
+	"startColumn": 16,
+	"endLineNumber": 12,
+	"endColumn": 17,
+	"modelVersionId": 3,
+	"origin": "extHost1"
+},{
+	"resource": "/D:/Projects/pattachitra/app/globals.css",
+	"owner": "_generated_diagnostic_collection_name_#3",
+	"code": "css-lcurlyexpected",
+	"severity": 8,
+	"message": "{ expected",
+	"source": "css",
+	"startLineNumber": 13,
+	"startColumn": 46,
+	"endLineNumber": 13,
+	"endColumn": 60,
+	"modelVersionId": 3,
+	"origin": "extHost1"
+},{
+	"resource": "/D:/Projects/pattachitra/app/globals.css",
+	"owner": "_generated_diagnostic_collection_name_#3",
+	"code": "css-lcurlyexpected",
+	"severity": 8,
+	"message": "{ expected",
+	"source": "css",
+	"startLineNumber": 14,
+	"startColumn": 22,
+	"endLineNumber": 14,
+	"endColumn": 44,
+	"modelVersionId": 3,
+	"origin": "extHost1"
+},{
+	"resource": "/D:/Projects/pattachitra/app/globals.css",
+	"owner": "_generated_diagnostic_collection_name_#3",
+	"code": "css-lcurlyexpected",
+	"severity": 8,
+	"message": "{ expected",
+	"source": "css",
+	"startLineNumber": 15,
+	"startColumn": 25,
+	"endLineNumber": 15,
+	"endColumn": 45,
+	"modelVersionId": 3,
+	"origin": "extHost1"
+},{
+	"resource": "/D:/Projects/pattachitra/app/globals.css",
+	"owner": "_generated_diagnostic_collection_name_#3",
+	"code": "css-ruleorselectorexpected",
+	"severity": 8,
+	"message": "at-rule or selector expected",
+	"source": "css",
+	"startLineNumber": 56,
+	"startColumn": 2,
+	"endLineNumber": 56,
+	"endColumn": 3,
+	"modelVersionId": 3,
+	"origin": "extHost1"
+},{
+	"resource": "/D:/Projects/pattachitra/app/globals.css",
+	"owner": "_generated_diagnostic_collection_name_#3",
+	"code": "css-lcurlyexpected",
+	"severity": 8,
+	"message": "{ expected",
+	"source": "css",
+	"startLineNumber": 58,
+	"startColumn": 28,
+	"endLineNumber": 58,
+	"endColumn": 29,
+	"modelVersionId": 3,
+	"origin": "extHost1"
+},{
+	"resource": "/D:/Projects/pattachitra/app/globals.css",
+	"owner": "_generated_diagnostic_collection_name_#3",
+	"code": "css-ruleorselectorexpected",
+	"severity": 8,
+	"message": "at-rule or selector expected",
+	"source": "css",
+	"startLineNumber": 65,
+	"startColumn": 30,
+	"endLineNumber": 65,
+	"endColumn": 31,
+	"modelVersionId": 3,
+	"origin": "extHost1"
+},{
+	"resource": "/D:/Projects/pattachitra/app/globals.css",
+	"owner": "_generated_diagnostic_collection_name_#3",
+	"code": "css-lcurlyexpected",
+	"severity": 8,
+	"message": "{ expected",
+	"source": "css",
+	"startLineNumber": 67,
+	"startColumn": 6,
+	"endLineNumber": 67,
+	"endColumn": 7,
+	"modelVersionId": 3,
+	"origin": "extHost1"
+},{
+	"resource": "/D:/Projects/pattachitra/app/globals.css",
+	"owner": "_generated_diagnostic_collection_name_#3",
+	"code": "css-ruleorselectorexpected",
+	"severity": 8,
+	"message": "at-rule or selector expected",
+	"source": "css",
+	"startLineNumber": 68,
+	"startColumn": 47,
+	"endLineNumber": 68,
+	"endColumn": 48,
+	"modelVersionId": 3,
+	"origin": "extHost1"
+},{
+	"resource": "/D:/Projects/pattachitra/app/globals.css",
+	"owner": "_generated_diagnostic_collection_name_#3",
+	"code": "css-lcurlyexpected",
+	"severity": 8,
+	"message": "{ expected",
+	"source": "css",
+	"startLineNumber": 70,
+	"startColumn": 8,
+	"endLineNumber": 70,
+	"endColumn": 9,
+	"modelVersionId": 3,
+	"origin": "extHost1"
+},{
+	"resource": "/D:/Projects/pattachitra/app/globals.css",
+	"owner": "_generated_diagnostic_collection_name_#3",
+	"code": "css-ruleorselectorexpected",
+	"severity": 8,
+	"message": "at-rule or selector expected",
+	"source": "css",
+	"startLineNumber": 71,
+	"startColumn": 2,
+	"endLineNumber": 71,
+	"endColumn": 3,
+	"modelVersionId": 3,
+	"origin": "extHost1"
+}]
