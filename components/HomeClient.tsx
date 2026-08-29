@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
 
-const HERO_IMAGES = ['/images/hero1.jpg','/images/hero2.jpg','/images/hero3.jpg', '/images/hero4.jpg', '/images/hero5.jpg']
+const HERO_IMAGES = ['/images/hero1.webp','/images/hero2.webp','/images/hero3.webp', '/images/hero4.webp', '/images/hero5.webp']
 
 export type Testimonial = {
   _id: string
@@ -25,7 +25,7 @@ export default function HomeClient({
     {
       id: 1,
       name: 'Mythology',
-      image: '/images/categories/mythology.jpg',
+      image: '/images/categories/mythology.webp',
       title: 'Yashoda with Baby Krishna',
       description:
         'A beautifully handcrafted Pattachitra painting depicting Mother Yashoda lovingly carrying Baby Krishna, symbolizing unconditional love and devotion.',
@@ -33,7 +33,7 @@ export default function HomeClient({
     {
       id: 2,
       name: 'Nature',
-      image: '/images/categories/nature.jpg',
+      image: '/images/categories/nature.webp',
       title: 'Tree of Life',
       description:
         'A handcrafted Pattachitra painting featuring the Tree of Life, symbolizing harmony, growth, and the beauty of nature.',
@@ -41,7 +41,7 @@ export default function HomeClient({
     {
       id: 3,
       name: 'Tribal Art',
-      image: '/images/categories/tribal.jpg',
+      image: '/images/categories/tribal.webp',
       title: 'Tribal Village Life',
       description:
         'A vibrant tribal artwork portraying the traditions, daily life, and cultural celebrations of indigenous communities.',
@@ -49,7 +49,7 @@ export default function HomeClient({
     {
       id: 4,
       name: 'Jagannath',
-      image: '/images/categories/jagannath.jpg',
+      image: '/images/categories/jagannath.webp',
       title: 'Jagannath, Balabhadra & Subhadra',
       description:
         "A sacred Pattachitra painting of Lord Jagannath, Balabhadra, and Subhadra, reflecting Odisha's rich spiritual heritage.",
@@ -143,7 +143,7 @@ export default function HomeClient({
       {/* ARTIST SECTION */}
       <section className="artist">
         <div className="artist-img">
-          <img src="/images/artist.jpg" alt="The artist at work" />
+          <img src="/images/artist.webp" alt="The artist at work" />
         </div>
 
         <div className="artist-text">
