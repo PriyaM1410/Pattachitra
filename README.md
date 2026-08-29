@@ -1,36 +1,151 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pattachitra — Traditional Art of Odisha
 
-## Getting Started
+Next.js website for Pattachitra art, with Sanity CMS for content and a contact enquiry form.
 
-First, run the development server:
+- **Live site:** https://pattachitra.vercel.app
+- **Content Studio (CMS):** https://pattachitra.sanity.studio
+
+---
+
+## Tech Stack
+
+| Layer | Tool |
+|---|---|
+| Framework | Next.js 16 (App Router) |
+| Content (CMS) | Sanity |
+| Styling | Tailwind CSS |
+| Hosting | Vercel (auto-deploys on push to `main`) |
+
+---
+
+## 1. First-Time Setup
+
+```bash
+# Clone the repo
+git clone https://github.com/PriyadharshiniM1410/Pattachitra.git
+cd Pattachitra
+
+# Install dependencies
+npm install
+```
+
+### Environment variables
+
+Create a file named `.env.local` in the project root (this file is git-ignored, never commit it):
+
+```
+NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
+NEXT_PUBLIC_SANITY_DATASET=production
+SANITY_API_TOKEN=your_write_token
+```
+
+- `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET` — found at https://manage.sanity.io → your project → Settings.
+- `SANITY_API_TOKEN` — a token with **Write** access, needed for the contact form to save enquiries to Sanity. Create it under Sanity → API → Tokens.
+
+These same three values must also be added in **Vercel → Project Settings → Environment Variables** so the live site works.
+
+---
+
+## 2. Running Locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser. The page auto-reloads as you edit files.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To stop the server: `Ctrl + C` in the terminal.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Other useful commands
 
-## Learn More
+```bash
+npm run build   # production build (also checks for errors)
+npm run start   # run the production build locally
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 3. Editing Content (no code needed)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Go to https://pattachitra.sanity.studio, log in, and edit artworks, categories, testimonials, and view contact enquiries directly. Changes here are live immediately — no redeploy required.
 
-## Deploy on Vercel
+### Updating the Studio itself
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The line above is for editing **content** (text, images, enquiries) — no command needed for that.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+You only need to run a deploy command if you change the **Studio's structure** — e.g. editing files inside `sanity/schemaTypes/`, `sanity.config.ts`, or `sanity/structure.ts` (adding a new field, a new content type, changing the studio layout).
+
+```bash
+npx sanity deploy
+```
+
+This rebuilds the Studio and republishes it to https://pattachitra.sanity.studio. It will ask you to log in the first time (`npx sanity login`). It does **not** touch your Next.js site or Vercel — those are separate.
+
+---
+
+## 4. Making Code Changes → GitHub → Vercel
+
+Vercel is connected to this GitHub repo. Any push to `main` triggers an automatic rebuild and redeploy — no manual deploy step needed.
+
+### Standard workflow
+
+```bash
+# 1. Check what changed
+git status
+
+# 2. Stage all changes
+git add -A
+
+# 3. Commit with a clear message
+git commit -m "short description of what you changed"
+
+# 4. Push to GitHub (Vercel deploys automatically after this)
+git push origin main
+```
+
+### Common situations
+
+**See what changed before committing:**
+```bash
+git diff
+```
+
+**Pull the latest changes from GitHub before you start working:**
+```bash
+git pull origin main
+```
+
+**Reinstall dependencies from scratch (after pulling changes that touch `package.json`):**
+
+PowerShell (Windows):
+```powershell
+Remove-Item -Recurse -Force node_modules
+Remove-Item package-lock.json
+npm install
+```
+
+Mac/Linux:
+```bash
+rm -rf node_modules package-lock.json
+npm install
+```
+
+**Check deploy status:** https://vercel.com/dashboard → this project → Deployments tab.
+
+---
+
+## 5. Project Structure
+
+```
+app/            → pages (Home, About, Gallery, Contact, Art detail)
+components/     → reusable UI pieces (Navbar, Footer, sliders, forms)
+sanity/         → CMS schema definitions and client setup
+public/images/  → static images (hero slider, category thumbnails)
+```
+
+**Files you don't need to touch:**
+- `.next/` and `node_modules/` — auto-generated, safe to delete anytime (they'll come back with `npm run dev` / `npm install`)
+- `next-env.d.ts` — auto-generated by Next.js, don't edit manually
+
+---
+
