@@ -10,9 +10,9 @@ export default function Footer() {
         </p>
 
         <p className="artwork-rights">
-          "All artworks displayed on this website are original creations by
+          &ldquo;All artworks displayed on this website are original creations by
           the artist. Please respect the artist&apos;s work by not reproducing
-          or using these artworks without permission."
+          or using these artworks without permission.&rdquo;
         </p>
 
         <p className="copy">

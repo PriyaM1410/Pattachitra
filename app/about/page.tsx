@@ -63,7 +63,7 @@ export default function AboutPage() {
 
         <div className="timeline">
           <div className="timeline-line" />
-          {timeline.map((item, i) => (
+          {timeline.map((item) => (
             <div className="timeline-item" key={item.year}>
               <div className="timeline-marker">
                 <span className="timeline-dot" />

@@ -4,7 +4,7 @@ import category from './category'
 import artwork from './artwork'
 import testimonial from './testimonial'
 
-export const schemaTypes = [
+export const schemaTypes: SchemaTypeDefinition[] = [
   category,
   artwork,
   contact,
