@@ -31,7 +31,7 @@ export default function AboutPage() {
       {/* STORY */}
       <section className="story">
         <div className="story-img">
-          <img src="/images/artist.jpg" alt="The artist at work" />
+          <img src="/images/artist.webp" alt="The artist at work" />
         </div>
         <div className="story-text">
           <span className="story-eyebrow">A Life Dedicated to Art</span>
