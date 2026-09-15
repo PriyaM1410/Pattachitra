@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const LINKS = [
   { href: "/", label: "Home" },
@@ -13,17 +13,19 @@ const LINKS = [
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [prevPathname, setPrevPathname] = useState(pathname);
 
-  useEffect(() => {
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
     setOpen(false);
-  }, [pathname]);
+  }
 
   return (
     <>
       {/* NAVBAR */}
       <nav className="navbar">
         <Link href="/" className="logo">
-          PATTACHITRA
+          PATTACHITRA STUDIO
         </Link>
 
         {/* DESKTOP MENU */}
