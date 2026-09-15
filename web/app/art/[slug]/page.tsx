@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { groq } from "next-sanity";
@@ -79,11 +80,13 @@ type Artwork = {
   _id: string;
   title: string;
   artworkId?: string;
-  slug: { current: string };
+  slug: {
+    current: string;
+  };
   price?: number;
   size?: string;
   description?: string;
-  availableForSale?: "Available" | "Sold";   // ✅ fixed
+  availableForSale?: "Available" | "Sold";
   colours?: string[];
   material?: string;
   otherMaterial?: string;
@@ -91,6 +94,72 @@ type Artwork = {
   image?: SanityImage;
   category?: Category;
 };
+
+/* =========================
+   OPEN GRAPH METADATA
+========================= */
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+
+  const art: Artwork | null = await client.fetch(ART_BY_SLUG_QUERY, {
+    slug,
+  });
+
+  const headersList = await headers();
+  const host = headersList.get("host");
+
+  const protocol =
+    process.env.NODE_ENV === "development" ? "http" : "https";
+
+  const baseUrl = `${protocol}://${host}`;
+
+  const pageUrl = `${baseUrl}/art/${slug}`;
+
+  const ogImageUrl = `${baseUrl}/images/og-image.png`;
+
+  return {
+    title: art
+      ? `${art.title} | Pattachitra Studio`
+      : "Pattachitra Studio",
+
+    description:
+      art?.description ||
+      "Explore traditional Pattachitra artwork from Pattachitra Studio.",
+
+    openGraph: {
+      title: art
+        ? `${art.title} | Pattachitra Studio`
+        : "Pattachitra Studio",
+
+      description:
+        art?.description ||
+        "Explore traditional Pattachitra artwork from Pattachitra Studio.",
+
+      url: pageUrl,
+      siteName: "Pattachitra Studio",
+      type: "website",
+
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: "Pattachitra Studio",
+        },
+      ],
+    },
+  };
+}
+
+/* =========================
+   ARTWORK DETAIL PAGE
+========================= */
+
 export default async function ArtDetailPage({
   params,
 }: {
@@ -123,11 +192,18 @@ export default async function ArtDetailPage({
   const headersList = await headers();
   const host = headersList.get("host");
 
-  const pageUrl = `https://${host}/art/${slug}`;
+  const protocol =
+    process.env.NODE_ENV === "development" ? "http" : "https";
+
+  const baseUrl = `${protocol}://${host}`;
+
+  const pageUrl = `${baseUrl}/art/${slug}`;
 
   const phone = "916372633342";
 
-  const imageUrl = art.image ? urlFor(art.image).width(800).url() : "";
+  const imageUrl = art.image
+    ? urlFor(art.image).width(800).url()
+    : "";
 
   const whatsappMessage = `Hi! 👋
 I'm interested in purchasing this beautiful *${art.title}* painting.
