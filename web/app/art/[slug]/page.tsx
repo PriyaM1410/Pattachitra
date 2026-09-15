@@ -60,6 +60,37 @@ const RELATED_ARTS_QUERY = groq`
   }
 `;
 
+type SanityImage = {
+  asset: {
+    _ref?: string;
+    _type?: string;
+    [key: string]: unknown;
+  };
+  alt?: string;
+};
+
+type Category = {
+  _id: string;
+  title: string;
+  prefix?: string;
+};
+
+type Artwork = {
+  _id: string;
+  title: string;
+  artworkId?: string;
+  slug: { current: string };
+  price?: number;
+  size?: string;
+  description?: string;
+  availableForSale?: "Available" | "Sold";   // ✅ fixed
+  colours?: string[];
+  material?: string;
+  otherMaterial?: string;
+  timeTaken?: string;
+  image?: SanityImage;
+  category?: Category;
+};
 export default async function ArtDetailPage({
   params,
 }: {
@@ -67,7 +98,7 @@ export default async function ArtDetailPage({
 }) {
   const { slug } = await params;
 
-  const art = await client.fetch(ART_BY_SLUG_QUERY, {
+  const art: Artwork | null = await client.fetch(ART_BY_SLUG_QUERY, {
     slug,
   });
 
@@ -84,7 +115,7 @@ export default async function ArtDetailPage({
     );
   }
 
-  const relatedArts = await client.fetch(RELATED_ARTS_QUERY, {
+  const relatedArts: Artwork[] = await client.fetch(RELATED_ARTS_QUERY, {
     slug,
     category: art.category?.title,
   });
@@ -113,7 +144,7 @@ I'm interested in purchasing this beautiful *${art.title}* painting.
     `Check out this beautiful Pattachitra artwork: ${art.title}\n${pageUrl}`,
   )}`;
 
-  const relatedImageUrls = relatedArts.map((r: any) =>
+  const relatedImageUrls = relatedArts.map((r) =>
     r.image ? urlFor(r.image).width(400).url() : "",
   );
 
