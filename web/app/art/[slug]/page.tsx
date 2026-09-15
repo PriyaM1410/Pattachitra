@@ -166,11 +166,11 @@ export async function generateMetadata({
       type: "website",
 
       images: [
-        {
-          url: ogImageUrl,
-          width: 1200,
-          height: 630,
-          alt: "Pattachitra Studio",
+       {
+        url: ogImageUrl,
+        width: 1254,
+        height: 1254,
+        alt: "Pattachitra Studio",
         },
       ],
     },
