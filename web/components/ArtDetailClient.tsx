@@ -3,9 +3,31 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
+type Category = {
+  _id: string;
+  title: string;
+  prefix?: string;
+};
+
+type Artwork = {
+  _id: string;
+  title: string;
+  artworkId?: string;
+  slug?: { current: string };
+  price?: number;
+  size?: string;
+  description?: string;
+  availableForSale?: "Available" | "Sold";
+  colours?: string[];
+  material?: string;
+  otherMaterial?: string;
+  timeTaken?: string;
+  category?: Category;
+};
+
 interface ArtDetailClientProps {
-  art: any;
-  relatedArts?: any[];
+  art: Artwork;
+  relatedArts?: Artwork[];
   whatsappUrl: string;
   shareWhatsapp: string;
   pageUrl: string;
@@ -74,12 +96,6 @@ export default function ArtDetailClient({
         <div className="art-grid">
           {/* INFO */}
           <section className="info-col">
-            <div className="badge-row">
-              {art.category?.title && (
-                <span className="badge">{art.category.title}</span>
-              )}
-            </div>
-
             <h1 className="title">{art.title}</h1>
 
             {/* Price */}
@@ -95,12 +111,12 @@ export default function ArtDetailClient({
             <div className="detail-card">
               <Row label="Artwork ID" value={art.artworkId || "—"} />
 
-              <Row label="Size" value={art.size || "—"} />
-
               <Row label="Category" value={art.category?.title || "—"} />
 
+              {material && <Row label="Material" value={material} />}
+
               {/* Colours / Pigments */}
-              {art.colours?.length > 0 && (
+              {art.colours && art.colours.length > 0 && (
                 <div className="row row-chips">
                   <span className="row-label">Colours</span>
 
@@ -117,8 +133,7 @@ export default function ArtDetailClient({
                 </div>
               )}
 
-              {/* Material */}
-              {material && <Row label="Material" value={material} />}
+              <Row label="Size" value={art.size || "—"} />
 
               {/* Time Taken */}
               {art.timeTaken && (
@@ -167,7 +182,6 @@ export default function ArtDetailClient({
               <button onClick={handleCopy} className="share-btn">
                 {copied ? "✓ Link copied" : "Copy link"}
               </button>
-
               <a
                 href={shareWhatsapp}
                 target="_blank"
@@ -206,6 +220,7 @@ export default function ArtDetailClient({
 
               <div className="mount-inner">
                 {imageUrl && (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img src={imageUrl} alt={art.title} className="art-img" />
                 )}
               </div>
@@ -231,7 +246,7 @@ export default function ArtDetailClient({
             </div>
 
             <div className="related-grid">
-              {relatedArts.map((r: any, i: number) => (
+              {relatedArts.map((r, i) => (
                 <Link
                   key={r._id}
                   href={`/art/${r.slug?.current}`}
@@ -239,6 +254,7 @@ export default function ArtDetailClient({
                 >
                   <div className="related-img-wrap">
                     {relatedImageUrls[i] && (
+                      // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={relatedImageUrls[i]}
                         alt={r.title}
@@ -275,6 +291,7 @@ export default function ArtDetailClient({
           </button>
 
           {imageUrl && (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={imageUrl}
               alt={art.title}
