@@ -104,11 +104,16 @@ export default function ContactPage() {
                   rel="noopener noreferrer"
                   className="waBtn"
                 >
-                  <span aria-hidden="true">💬</span> Enquiry via WhatsApp
+                  <span aria-hidden="true">💬</span> WhatsApp
                 </a>
 
-                <a href={EMAIL_LINK} className="emailBtn">
-                  <span aria-hidden="true">✉</span> Enquiry via Email
+                <a
+                  href={EMAIL_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="emailBtn"
+                >
+                  <span aria-hidden="true">✉</span> Email
                 </a>
               </div>
             </div>
