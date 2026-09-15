@@ -1,23 +1,25 @@
 "use client";
 
+import Image from "next/image";
+
 export default function AboutPage() {
   const timeline = [
     {
       year: "1990",
-      event:
-        "Began formal training under My father.(This skills inherited from ancestries).",
+      event: "Began formal training under My father.",
     },
-    { year: "2010", event: "Exhibition at karunamayi at Kolkata" },
-    { year: "2014", event: "Exhibition at Assam (Gauhati)" },
-    { year: "2017", event: "Exhibition at Delhi Haat at New Delhi" },
-    { year: "2018", event: "Exhibition at Kalaghoda at Mumbai" },
-    { year: "2022", event: "Exhibition at Goa Saras" },
+    { year: "2010", event: "Exhibition at Karunamayi, Kolkata" },
+    { year: "2014", event: "Exhibition at Guwahati, Assam" },
+    { year: "2017", event: "Exhibition at Dilli Haat, New Delhi" },
+    { year: "2018", event: "Exhibition at Kala Ghoda, Mumbai" },
+    { year: "2022", event: "Exhibition at Goa Saras, Goa" },
     {
       year: "2024",
       event:
-        "Exhibition at Bhubaneswar (Odisha) recipient Pattachitra traditional best artist award",
+        "Exhibition at Bhubaneswar, Odisha – Awarded Best Traditional Pattachitra Artist",
     },
   ];
+
   const awards = [
     {
       title: "Odisha State Award for Folk Art Painting",
@@ -41,7 +43,12 @@ export default function AboutPage() {
       {/* STORY */}
       <section className="story">
         <div className="story-img">
-          <img src="/images/artist.webp" alt="The artist at work" />
+          <Image
+            src="/images/artist.webp"
+            alt="The artist at work"
+            width={550}
+            height={500}
+          />
         </div>
         <div className="story-text">
           <span className="story-eyebrow">A Life Dedicated to Art</span>
@@ -53,10 +60,10 @@ export default function AboutPage() {
             lullaby, and by age fifteen, I was painting my own scrolls.
           </p>
           <p>
-            Pattachitra is more than art; it is devotion. Each pigment is ground
-            from natural materials — conch shells for white, lampblack for deep
-            outlines, hingula for vermilion red. The process itself is a
-            meditation.
+            Pattachitra is more than art; it is devotion. Each pigment is
+            ground from natural materials — conch shells for white, lampblack
+            for deep outlines, hingula for vermilion red. The process itself
+            is a meditation.
           </p>
           <p>
             Today I work to honour this lineage while exploring contemporary
