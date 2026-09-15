@@ -7,6 +7,7 @@ import { headers } from "next/headers";
 
 export const revalidate = 60;
 
+
 const ART_BY_SLUG_QUERY = groq`
   *[_type == "artwork" && slug.current == $slug][0] {
     _id,
@@ -34,6 +35,7 @@ const ART_BY_SLUG_QUERY = groq`
     }
   }
 `;
+
 
 const RELATED_ARTS_QUERY = groq`
   *[
@@ -80,24 +82,47 @@ type Artwork = {
   _id: string;
   title: string;
   artworkId?: string;
+
   slug: {
     current: string;
   };
+
   price?: number;
   size?: string;
+
   description?: string;
+
   availableForSale?: "Available" | "Sold";
+
   colours?: string[];
   material?: string;
   otherMaterial?: string;
   timeTaken?: string;
+
   image?: SanityImage;
+
   category?: Category;
 };
 
-/* =========================
-   OPEN GRAPH METADATA
-========================= */
+
+
+async function getBaseUrl() {
+  
+  const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL;
+
+  if (configuredUrl) {
+    return configuredUrl.replace(/\/$/, "");
+  }
+
+  const headersList = await headers();
+  const host = headersList.get("host");
+
+  const protocol =
+    process.env.NODE_ENV === "development" ? "http" : "https";
+
+  return `${protocol}://${host}`;
+}
+
 
 export async function generateMetadata({
   params,
@@ -106,42 +131,38 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
 
-  const art: Artwork | null = await client.fetch(ART_BY_SLUG_QUERY, {
-    slug,
-  });
+  const art: Artwork | null = await client.fetch(
+    ART_BY_SLUG_QUERY,
+    { slug }
+  );
 
-  const headersList = await headers();
-  const host = headersList.get("host");
-
-  const protocol =
-    process.env.NODE_ENV === "development" ? "http" : "https";
-
-  const baseUrl = `${protocol}://${host}`;
+  const baseUrl = await getBaseUrl();
 
   const pageUrl = `${baseUrl}/art/${slug}`;
 
   const ogImageUrl = `${baseUrl}/images/og-image.png`;
 
-  return {
-    title: art
-      ? `${art.title} | Pattachitra Studio`
-      : "Pattachitra Studio",
+  const title = art
+    ? `${art.title} | Pattachitra Studio`
+    : "Pattachitra Studio";
 
-    description:
-      art?.description ||
-      "Explore traditional Pattachitra artwork from Pattachitra Studio.",
+  const description =
+    art?.description?.trim() ||
+    "Explore traditional Pattachitra artwork from Pattachitra Studio.";
+
+  return {
+    title,
+
+    description,
 
     openGraph: {
-      title: art
-        ? `${art.title} | Pattachitra Studio`
-        : "Pattachitra Studio",
-
-      description:
-        art?.description ||
-        "Explore traditional Pattachitra artwork from Pattachitra Studio.",
+      title,
+      description,
 
       url: pageUrl,
+
       siteName: "Pattachitra Studio",
+
       type: "website",
 
       images: [
@@ -156,9 +177,7 @@ export async function generateMetadata({
   };
 }
 
-/* =========================
-   ARTWORK DETAIL PAGE
-========================= */
+
 
 export default async function ArtDetailPage({
   params,
@@ -167,9 +186,12 @@ export default async function ArtDetailPage({
 }) {
   const { slug } = await params;
 
-  const art: Artwork | null = await client.fetch(ART_BY_SLUG_QUERY, {
-    slug,
-  });
+  const art: Artwork | null = await client.fetch(
+    ART_BY_SLUG_QUERY,
+    { slug }
+  );
+
+
 
   if (!art) {
     return (
@@ -184,18 +206,17 @@ export default async function ArtDetailPage({
     );
   }
 
-  const relatedArts: Artwork[] = await client.fetch(RELATED_ARTS_QUERY, {
-    slug,
-    category: art.category?.title,
-  });
 
-  const headersList = await headers();
-  const host = headersList.get("host");
+  const relatedArts: Artwork[] = await client.fetch(
+    RELATED_ARTS_QUERY,
+    {
+      slug,
+      category: art.category?.title,
+    }
+  );
 
-  const protocol =
-    process.env.NODE_ENV === "development" ? "http" : "https";
 
-  const baseUrl = `${protocol}://${host}`;
+  const baseUrl = await getBaseUrl();
 
   const pageUrl = `${baseUrl}/art/${slug}`;
 
@@ -209,19 +230,21 @@ export default async function ArtDetailPage({
 I'm interested in purchasing this beautiful *${art.title}* painting.
 🆔 Artwork ID: ${art.artworkId || "N/A"}
 📐 Size: ${art.size || "N/A"}
-💰 Price: ₹${art.price?.toLocaleString("en-IN")}
+💰 Price: ₹${art.price?.toLocaleString("en-IN") || "N/A"}
 🖼️ ${pageUrl}`;
 
   const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(
-    whatsappMessage,
+    whatsappMessage
   )}`;
 
   const shareWhatsapp = `https://wa.me/?text=${encodeURIComponent(
-    `Check out this beautiful Pattachitra artwork: ${art.title}\n${pageUrl}`,
+    `Check out this beautiful Pattachitra artwork: ${art.title}\n${pageUrl}`
   )}`;
 
   const relatedImageUrls = relatedArts.map((r) =>
-    r.image ? urlFor(r.image).width(400).url() : "",
+    r.image
+      ? urlFor(r.image).width(400).url()
+      : ""
   );
 
   return (
