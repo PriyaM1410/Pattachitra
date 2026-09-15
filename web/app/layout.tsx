@@ -29,6 +29,22 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+openGraph: {
+  type: "website",
+  url: siteUrl,
+  siteName: "Pattachitra | Traditional Art of Odisha",
+  title: "Pattachitra | Traditional Art of Odisha",
+  description:
+    "Explore the traditional Pattachitra art of Odisha, its history, paintings, artists, culture, and heritage.",
+  images: [
+    {
+      url: "/images/og-image.png",
+      width: 512,
+      height: 512,
+      alt: "Pattachitra | Traditional Art of Odisha",
+    },
+  ],
+},
 };
 
 export default function RootLayout({
