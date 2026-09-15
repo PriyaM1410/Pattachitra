@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
@@ -126,7 +127,12 @@ export default function HomeClient({
       {/* ARTIST SECTION */}
       <section className="artist">
         <div className="artist-img">
-          <img src="/images/artist.webp" alt="The artist at work" />
+          <Image
+            src="/images/artist.webp"
+            alt="The artist at work"
+            width={550}
+            height={500}
+          />
         </div>
 
         <div className="artist-text">
@@ -166,9 +172,11 @@ export default function HomeClient({
               <div className="card" key={item._id}>
                 <div className="image-wrapper">
                   {item.artImageUrl && (
-                    <img
+                    <Image
                       src={item.artImageUrl}
                       alt={item.artName}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 25vw"
                       className="card-img"
                     />
                   )}
@@ -242,9 +250,11 @@ export default function HomeClient({
                   <div className="testi-top">
                     <div className="avatar-ring">
                       {t.customerPhotoUrl ? (
-                        <img
+                        <Image
                           src={t.customerPhotoUrl}
                           alt={t.customerName}
+                          fill
+                          sizes="48px"
                           className="testi-photo"
                         />
                       ) : (
