@@ -43,6 +43,7 @@ const selectedWorksQuery = `
   }
 `;
 export const revalidate = 60;
+
 export default async function Home() {
   let testimonials: Testimonial[] = [];
   let selectedWorks: SelectedWork[] = [];
