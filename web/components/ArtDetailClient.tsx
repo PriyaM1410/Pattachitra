@@ -244,6 +244,31 @@ export default function ArtDetailClient({
                 More from {art.category?.title || "this collection"}
               </h2>
             </div>
+            <div className="related-grid">
+    {relatedArts.map((r, i) => (
+    <Link
+      key={r._id}
+      href={`/art/${r.slug?.current}`}
+      className="gallery-card"
+    >
+      <div className="gallery-image-wrapper">
+        {relatedImageUrls[i] && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={relatedImageUrls[i]}
+            alt={r.title}
+            className="gallery-img"
+          />
+        )}
+      </div>
+
+      <div className="gallery-content">
+        <h5>{r.artworkId}</h5>
+        <h3>{r.title}</h3>
+      </div>
+    </Link>
+  ))}
+</div>
               
              
           </section>
