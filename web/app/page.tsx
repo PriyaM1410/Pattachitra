@@ -42,7 +42,7 @@ const selectedWorksQuery = `
     "artImageUrl": artImage.asset->url
   }
 `;
-
+export const revalidate = 60;
 export default async function Home() {
   let testimonials: Testimonial[] = [];
   let selectedWorks: SelectedWork[] = [];
